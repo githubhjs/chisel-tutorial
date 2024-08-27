@@ -21,7 +21,7 @@ class RGB2Y extends Module {
 
   // Calculate Y using the given formula
   val Y = Wire(UInt(16.W))
-      Y := (R << 6) +  B + (B << 1) + (B << 4) + (G << 6) + (G << 7) - (G << 3) - (R << 1) - (R << 3) - G 
+      Y := (R << 6) +&  B +& (B << 1) +& (B << 4) +& (G << 6) +& (G << 7) - (G << 3) - (R << 1) - (R << 3) - G 
   
   // Right shift to convert to 8-bit and clamp to 255
   val Yout = (Y >> 8).asUInt
