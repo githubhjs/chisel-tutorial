@@ -3,9 +3,9 @@
     "class":"firrtl.transforms.CombinationalPath",
     "sink":"~RGB2Y|RGB2Y>io_Y",
     "sources":[
-      "~RGB2Y|RGB2Y>io_B",
       "~RGB2Y|RGB2Y>io_G",
-      "~RGB2Y|RGB2Y>io_R"
+      "~RGB2Y|RGB2Y>io_R",
+      "~RGB2Y|RGB2Y>io_B"
     ]
   },
   {
