@@ -20,9 +20,10 @@ class RGB2Y extends Module {
   val B = io.B >> RGB2Y_SHIFT_BITS
 
   // Calculate Y using the given formula
-  val Y = (R << 6) - (R << 3) - (R << 1) +
-          (G << 7) + (G << 6) - (G << 3) - G +
-          (B << 4) + (B << 1) + B
+  val Y = Wire(UInt(16.W))
+      Y := (R << 6) - (R << 3) - (R << 1) +
+           (G << 7) + (G << 6) - (G << 3) - G +
+           (B << 4) + (B << 1) +  B
   
   // Right shift to convert to 8-bit and clamp to 255
   val Yout = (Y >> 8).asUInt
