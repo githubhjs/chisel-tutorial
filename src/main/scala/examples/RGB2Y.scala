@@ -1,4 +1,3 @@
-// See LICENSE.txt for license details.
 package examples
 
 import chisel3._
@@ -6,33 +5,26 @@ import chisel3.util._
 
 class RGB2Y extends Module {
   val io = IO(new Bundle {
-    val in_rgb = Input(Vec(3, UInt(8.W)))  // 8-bit RGB input
-    val out_y = Output(UInt(8.W))          // 8-bit Y output
-    val valid = Input(Bool())              // Optional: Indicate valid input data
+    val R = Input(UInt(12.W)) // Input R (12-bit)
+    val G = Input(UInt(12.W)) // Input G (12-bit)
+    val B = Input(UInt(12.W)) // Input B (12-bit)
+    val Y = Output(UInt(8.W)) // Output Y (8-bit)
   })
 
-  // Constants for bit-shifting (matches the C++ comments)
-  val R_shift_6 = 6
-  val R_shift_3 = 3
-  val R_shift_1 = 1
-  val G_shift_7 = 7
-  val G_shift_6 = 6
-  val G_shift_3 = 3
-  val B_shift_4 = 4
-  val B_shift_1 = 1
+  // Constants for bit shifts and multipliers
+  val RGB2Y_SHIFT_BITS = 4  // Example shift value (should match the C++ shift)
+  
+  // Convert RGB inputs
+  val R = io.R >> RGB2Y_SHIFT_BITS
+  val G = io.G >> RGB2Y_SHIFT_BITS
+  val B = io.B >> RGB2Y_SHIFT_BITS
 
-  // Internal wires for calculations
-  val R = io.in_rgb(0)
-  val G = io.in_rgb(1)
-  val B = io.in_rgb(2)
-
-  val Y = (R << R_shift_6) - (R << R_shift_3) - (R << R_shift_1) +
-          (G << G_shift_7) + (G << G_shift_6) - (G << G_shift_3) - G +
-          (B << B_shift_4) + (B << B_shift_1) + B
-
-  // Clamp the output to 8 bits (ensure it's within 0-255)
-  val Y_clamped = Y(7, 0) // Take the lower 8 bits
-
-  // Output logic
-  io.out_y := Mux(io.valid, Y_clamped, 0.U) // Output Y if valid, else 0
+  // Calculate Y using the given formula
+  val Y = (R << 6) - (R << 3) - (R << 1) +
+          (G << 7) + (G << 6) - (G << 3) - G +
+          (B << 4) + (B << 1) + B
+  
+  // Right shift to convert to 8-bit and clamp to 255
+  val Yout = (Y >> 8).asUInt
+  io.Y := Mux(Yout > 255.U, 255.U, Yout)
 }

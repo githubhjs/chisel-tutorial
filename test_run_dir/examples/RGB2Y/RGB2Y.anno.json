@@ -1,12 +1,11 @@
 [
   {
     "class":"firrtl.transforms.CombinationalPath",
-    "sink":"~RGB2Y|RGB2Y>io_out_y",
+    "sink":"~RGB2Y|RGB2Y>io_Y",
     "sources":[
-      "~RGB2Y|RGB2Y>io_valid",
-      "~RGB2Y|RGB2Y>io_in_rgb_2",
-      "~RGB2Y|RGB2Y>io_in_rgb_1",
-      "~RGB2Y|RGB2Y>io_in_rgb_0"
+      "~RGB2Y|RGB2Y>io_B",
+      "~RGB2Y|RGB2Y>io_G",
+      "~RGB2Y|RGB2Y>io_R"
     ]
   },
   {

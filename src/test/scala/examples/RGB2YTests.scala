@@ -54,10 +54,9 @@ class RGB2YTests(c: RGB2Y) extends PeekPokeTester(c) {
       for (b <- 0 until 256) {
 
         // Poke RGB values into the module, converting Ints to UInts
-        poke(c.io.in_rgb(0), r)
-        poke(c.io.in_rgb(1), g)
-        poke(c.io.in_rgb(2), b)
-        poke(c.io.valid, true)  // Convert Boolean to Bool
+        poke(c.io.R, r)
+        poke(c.io.G, g)
+        poke(c.io.B, b)
 
         // Advance the clock
         step(1)
@@ -66,7 +65,7 @@ class RGB2YTests(c: RGB2Y) extends PeekPokeTester(c) {
         val expectedY = ((r * 66 + g * 129 + b * 25) + 128) >> 8  // Standard YUV conversion formula
 
         // Check if the output matches the expected value, converting Int to UInt
-        expect(c.io.out_y, expectedY)
+        expect(c.io.Y, expectedY)
       }
     }
   }
