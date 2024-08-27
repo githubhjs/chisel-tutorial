@@ -101,6 +101,11 @@ object Launcher {
           (c) => new VecSearchTests(c)
         }
       },
+      "RGB2Y" -> { (manager: TesterOptionsManager) =>
+        Driver.execute(() => new RGB2Y(), manager) {
+          (c) =>             new RGB2YTests(c)
+        }
+      },
       "Stack" -> { (manager: TesterOptionsManager) =>
         Driver.execute(() => new Stack(8), manager) {
           (c) => new StackTests(c)
